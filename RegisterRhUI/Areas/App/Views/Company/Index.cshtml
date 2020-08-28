@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table table-bordered table-striped dataTable" style="width:100% !important" id="tblData">
+    <thead>
+        <tr>
+            <th>Logo</th>
+            <th>Name</th>
+            <th>CreatedDate</th><!--Created Date-->
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+</table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#tblData').DataTable();
+        });
+    </script>
+}
+

@@ -6,15 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Persistance\Persistance.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="IServices\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
