@@ -9,17 +9,19 @@ namespace Domain.AuditableEntities
     {
         public bool Status { get; set; }
 
-        [StringLength(50)]
+        [StringLength(100)]
         public string CreatedBy { get; set; }
 
         public DateTime? CreatedDate { get; set; }
 
-        [StringLength(50)]
+        [StringLength(100)]
         public string ModifiedBy { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
 
-        [StringLength(50)]
+        public bool IsDeleted { get; set; }
+
+        [StringLength(100)]
         public string DeletedBy { get; set; }
 
         public DateTime? DeletedDate { get; set; }
