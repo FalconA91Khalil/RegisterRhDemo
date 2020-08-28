@@ -61,13 +61,8 @@ namespace RegisterRhUI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                  name: "default",
-                  pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(
-                   name: "App",
-                   pattern: "{area=App}/{controller=Company}/{action=Index}/{id?}");
-
-              
+                   name: "default",
+                   pattern: "{area=WebSite}/{controller=Home}/{action=Index}/{id?}");              
                 endpoints.MapRazorPages();
             });
         }

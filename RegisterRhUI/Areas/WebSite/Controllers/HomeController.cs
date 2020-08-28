@@ -7,8 +7,9 @@ using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace RegisterRhUI.Controllers
+namespace RegisterRhUI.Areas.WebSite.Controllers
 {
+    [Area("WebSite")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

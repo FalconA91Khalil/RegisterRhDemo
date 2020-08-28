@@ -26,6 +26,7 @@
     <Folder Include="Areas\SPR\Views\" />
     <Folder Include="Areas\SRMD\Controllers\" />
     <Folder Include="Areas\SRMD\Views\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>
