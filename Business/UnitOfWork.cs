@@ -1,5 +1,7 @@
-﻿using Business.Repository;
+﻿using Business.IServices;
+using Business.Repository;
 using Business.Repository.IRepository;
+using Business.Services;
 using Persistance;
 using System;
 using System.Collections.Generic;
@@ -15,10 +17,12 @@ namespace Business
             _db = db;
 
             SP_Call = new SP_Call(_db);
+            Company = new CompanyRepository(_db);
         }
 
         public ISP_Call SP_Call { get; set; }
 
+        public ICompanyRepository Company { get; set; }
 
         public void Dispose()
         {

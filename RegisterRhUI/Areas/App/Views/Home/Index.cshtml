@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Home Page";
+}
+<section>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-primary text-center">@User.Identity.Name</h2>           
+        </div>
+    </div>
+</section>
+<br />
+<section>
+    <div class="card col-4">
+        <div class="card-body">
+            <h3 class="text-primary">Single Personnel Register</h3>
+        </div>
+    </div>
+</section>
+<br />
+<section>
+    <div class="card col-4">
+        <div class="card-body">
+            <h3 class="text-primary">Single Risk Management Document</h3>
+        </div>
+    </div>
+</section>
+<br />
+<section>
+    <div class="card col-4">
+        <div class="card-body">
+            <h3 class="text-primary">Security Control Register</h3>
+        </div>
+    </div>
+</section>
