@@ -7,12 +7,11 @@ namespace Domain.AuditableEntities
 {
     public class AuditEntities
     {
-        public bool Status { get; set; }
-
+        [Required]
         [StringLength(100)]
         public string CreatedBy { get; set; }
 
-        public DateTime? CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         [StringLength(100)]
         public string ModifiedBy { get; set; }

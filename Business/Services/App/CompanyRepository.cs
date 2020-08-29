@@ -1,4 +1,5 @@
 ﻿using Business.IServices;
+using Business.IServices.IApp;
 using Business.Repository;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Business.Services
+namespace Business.Services.App
 {
     public class CompanyRepository : Repository<Company>, ICompanyRepository
     {

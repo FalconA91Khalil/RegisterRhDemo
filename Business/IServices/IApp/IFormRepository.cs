@@ -5,12 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Business.IServices
+namespace Business.IServices.IApp
 {
-    public interface ICompanyRepository : IRepository<Company>
+    public interface IFormRepository : IRepository<Form>
     {
         IEnumerable<SelectListItem> GetListForDropDown();
-        void Update(Company company);
+        void Update(Form form);
 
     }
 }
