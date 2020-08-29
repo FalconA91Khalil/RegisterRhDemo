@@ -75,7 +75,8 @@ namespace Business.Services.App
             objFromDb.DependentFieldId = formField.DependentFieldId;
             objFromDb.DependentFieldValue = formField.DependentFieldValue;
             objFromDb.FieldValueForDep = formField.FieldValueForDep;
-
+            objFromDb.ModifiedBy = formField.ModifiedBy;
+            objFromDb.ModifiedDate = DateTime.Now;
             _db.FormFields.Update(objFromDb);
             _db.SaveChanges();
         }

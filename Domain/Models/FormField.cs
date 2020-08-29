@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Domain.AuditableEntities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Domain.Models
 {
-    public class FormField
+    public class FormField:AuditEntities
     {
         public int FormFieldID { get; set; }
         public int FormId { get; set; }
