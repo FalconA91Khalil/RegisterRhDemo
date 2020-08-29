@@ -21,8 +21,17 @@
                     <label asp-for="FormField.FormId"></label>
                 </div>
                 <div class="col-8">
-                    @Html.DropDownListFor(x => x.FormField.FormId, Model.SectionList, "- Please select a Form -", new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.FormField.FormId, Model.FormList, "- Please select a Form -", new { @class = "form-control" })
                     <span asp-validation-for="FormField.FormId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="FormField.FieldType"></label>
+                </div>
+                <div class="col-8">
+                    @Html.DropDownListFor(x => x.FormField.FieldType, Model.FieldType, "- Please select a FieldType -", new { @class = "form-control" })
+                    <span asp-validation-for="FormField.FieldType" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group row">
@@ -57,7 +66,7 @@
                     <label asp-for="FormField.FieldWidth"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="FormField.FieldWidth" class="form-control" />
+                    @Html.DropDownListFor(x => x.FormField.FieldWidth, Model.ElementWidths, "- Please select a Width -", new { @class = "form-control" })
                     <span asp-validation-for="FormField.FieldWidth" class="text-danger"></span>
                 </div>
             </div>
@@ -66,7 +75,7 @@
                     <label asp-for="FormField.IsRequired"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="FormField.IsRequired" type="checkbox" class="form-control" />
+                    <input asp-for="FormField.IsRequired" type="checkbox" class="form-control custom-checkbox" />
                     <span asp-validation-for="FormField.IsRequired" class="text-danger"></span>
                 </div>
             </div>

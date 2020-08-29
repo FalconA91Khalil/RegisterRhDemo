@@ -19,15 +19,22 @@ namespace Business
             _db = db;
 
             SP_Call = new SP_Call(_db);
-            Company = new CompanyRepository(_db);
+            Companies = new CompanyRepository(_db);
             Forms = new FormRepository(_db);
+            FormFeilds = new FormFieldRepository(_db);
+            Sections = new SectionRepository(_db);
         }
 
         public ISP_Call SP_Call { get; set; }
 
-        public ICompanyRepository Company { get; set; }
+        public ICompanyRepository Companies { get; set; }
 
         public IFormRepository Forms { get; set; }
+
+        public IFormFeildRepository FormFeilds { get; set; }
+
+        public ISectionRepository Sections { get; set; }
+
 
         public void Dispose()
         {

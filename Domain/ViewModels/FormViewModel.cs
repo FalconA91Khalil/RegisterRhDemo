@@ -10,6 +10,8 @@ namespace Domain.ViewModels
     {
         public IEnumerable<SelectListItem> FormList { get; set; }
         public IEnumerable<SelectListItem> SectionList { get; set; }
+        public IEnumerable<SelectListItem> ElementWidths { get; set; }
+        public IEnumerable<SelectListItem> FieldType { get; set; }
         public FormField FormField { get; set; }
     }
 }

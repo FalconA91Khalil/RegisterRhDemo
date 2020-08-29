@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Business;
 using Domain.Models;
+using Domain.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace RegisterRhUI.Areas.App.Controllers
@@ -12,6 +13,9 @@ namespace RegisterRhUI.Areas.App.Controllers
     public class FormsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+
+        [BindProperty]
+        public FormViewModel formVM { get; set; }
 
         public FormsController(IUnitOfWork unitOfWork)
         {
@@ -24,59 +28,60 @@ namespace RegisterRhUI.Areas.App.Controllers
 
         public IActionResult Upsert(int? id)
         {
-            Form form = new Form();
-            if (id == null)
+            formVM = new FormViewModel()
             {
-                return View(form);
-            }
-
-            form = _unitOfWork.Forms.Get(id.GetValueOrDefault());
-            if (form == null)
+                FormField = new FormField(),
+                SectionList = _unitOfWork.Sections.GetListForDropDown(),
+                FormList = _unitOfWork.Forms.GetListForDropDown(),
+                ElementWidths = _unitOfWork.FormFeilds.ElementWidth(),
+                FieldType = _unitOfWork.FormFeilds.FieldTypes()
+            };
+            if (id != null)
             {
-                return NotFound();
+                formVM.FormField = _unitOfWork.FormFeilds.Get(id.GetValueOrDefault());
             }
-            return View(form);
+            return View(formVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Form form)
+        public IActionResult Upsert()
         {
             if (ModelState.IsValid)
             {
-                if (form.FormId == 0)
+                if (formVM.FormField.FormFieldID == 0)
                 {
-                    _unitOfWork.Forms.Add(form);
+                    _unitOfWork.FormFeilds.Add(formVM.FormField);
                 }
                 else
                 {
-                    _unitOfWork.Forms.Update(form);
+                    _unitOfWork.FormFeilds.Update(formVM.FormField);
                 }
                 _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
-            return View(form);
+            return View(formVM.FormField);
         }
 
         #region API CALL
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Json(new { data = _unitOfWork.Forms.GetAll() });
+            return Json(new { data = _unitOfWork.FormFeilds.GetAll() });
             //return Json(new { data = _unitOfWork.SP_Call.ReturnList<Category>(SD.usp_GetAllCategory, null) });
         }
 
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var objFromDb = _unitOfWork.Forms.Get(id);
+            var objFromDb = _unitOfWork.FormFeilds.Get(id);
             if (objFromDb == null)
             {
                 return Json(new { success = false, message = "Error while deleting." });
             }
             else
             {
-                _unitOfWork.Forms.Remove(objFromDb);
+                _unitOfWork.FormFeilds.Remove(objFromDb);
                 _unitOfWork.Save();
                 return Json(new { success = true, message = "Deleted successful." });
             }

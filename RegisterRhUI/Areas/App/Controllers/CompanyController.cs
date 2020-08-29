@@ -30,7 +30,7 @@ namespace RegisterRhUI.Areas.App.Controllers
                 return View(company);
             }
 
-            company = _unitOfWork.Company.Get(id.GetValueOrDefault());
+            company = _unitOfWork.Companies.Get(id.GetValueOrDefault());
             if (company == null)
             {
                 return NotFound();
@@ -46,11 +46,11 @@ namespace RegisterRhUI.Areas.App.Controllers
             {
                 if (company.CompanyId == 0)
                 {
-                    _unitOfWork.Company.Add(company);
+                    _unitOfWork.Companies.Add(company);
                 }
                 else
                 {
-                    _unitOfWork.Company.Update(company);
+                    _unitOfWork.Companies.Update(company);
                 }
                 _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
@@ -62,21 +62,21 @@ namespace RegisterRhUI.Areas.App.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Json(new { data = _unitOfWork.Company.GetAll() });
+            return Json(new { data = _unitOfWork.Companies.GetAll() });
             //return Json(new { data = _unitOfWork.SP_Call.ReturnList<Category>(SD.usp_GetAllCategory, null) });
         }
 
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var objFromDb = _unitOfWork.Company.Get(id);
+            var objFromDb = _unitOfWork.Companies.Get(id);
             if (objFromDb == null)
             {
                 return Json(new { success = false, message = "Error while deleting." });
             }
             else
             {
-                _unitOfWork.Company.Remove(objFromDb);
+                _unitOfWork.Companies.Remove(objFromDb);
                 _unitOfWork.Save();
                 return Json(new { success = true, message = "Deleted successful." });
             }

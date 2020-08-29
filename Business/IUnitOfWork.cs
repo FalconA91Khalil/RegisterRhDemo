@@ -12,8 +12,10 @@ namespace Business
 {
     public interface IUnitOfWork : IDisposable
     {
-        ICompanyRepository Company { get; }
+        ICompanyRepository Companies { get; }
         IFormRepository Forms { get; }
+        IFormFeildRepository FormFeilds { get; }
+        ISectionRepository Sections { get; }
         ISP_Call SP_Call { get; }
         void Save();
     }
