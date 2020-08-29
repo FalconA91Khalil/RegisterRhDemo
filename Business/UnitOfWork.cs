@@ -1,7 +1,9 @@
 ﻿using Business.IServices;
+using Business.IServices.IApp;
 using Business.Repository;
 using Business.Repository.IRepository;
 using Business.Services;
+using Business.Services.App;
 using Persistance;
 using System;
 using System.Collections.Generic;
@@ -18,11 +20,14 @@ namespace Business
 
             SP_Call = new SP_Call(_db);
             Company = new CompanyRepository(_db);
+            Forms = new FormRepository(_db);
         }
 
         public ISP_Call SP_Call { get; set; }
 
         public ICompanyRepository Company { get; set; }
+
+        public IFormRepository Forms { get; set; }
 
         public void Dispose()
         {

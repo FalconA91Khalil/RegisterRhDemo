@@ -1,5 +1,6 @@
 ﻿using Business.IServices.IApp;
 using Business.Repository;
+using Business.Utility;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Persistance;
@@ -37,5 +38,47 @@ namespace Business.Services.App
             _db.Forms.Update(objFromDb);
             _db.SaveChanges();
         }
+        public string GetElementTypeString(int type)
+        {
+            string Type = string.Empty;
+            if (type == (int)DynamicFormEnums.ElementTypes.Text)
+            {
+                Type = "Text";
+            }
+            else if (type == (int)DynamicFormEnums.ElementTypes.AutoSearchDropdown)
+            {
+                Type = "Auto Search Dropdown";
+            }
+            else if (type == (int)DynamicFormEnums.ElementTypes.Checkbox)
+            {
+                Type = "Checkbox";
+            }
+            else if (type == (int)DynamicFormEnums.ElementTypes.RadioButton)
+            {
+                Type = "Radio Button";
+            }
+            else if (type == (int)DynamicFormEnums.ElementTypes.SimpleDropdown)
+            {
+                Type = "Simple Dropdown";
+            }
+            else if (type == (int)DynamicFormEnums.ElementTypes.TextArea)
+            {
+                Type = "Text Area";
+            }
+            else if (type == (int)DynamicFormEnums.ElementTypes.Date)
+            {
+                Type = "Date";
+            }
+            else if (type == (int)DynamicFormEnums.ElementTypes.Number)
+            {
+                Type = "Number";
+            }
+            else if (type == (int)DynamicFormEnums.ElementTypes.File)
+            {
+                Type = "File";
+            }
+            return Type;
+        }
+
     }
 }

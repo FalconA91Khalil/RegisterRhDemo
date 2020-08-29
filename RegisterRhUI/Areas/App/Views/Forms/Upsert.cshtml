@@ -1,0 +1,90 @@
+﻿@model Domain.ViewModels.FormViewModel
+@{
+    var title = "Create New Form";
+}
+
+<form method="post" asp-action="Upsert">
+    <div class="row px-2 mx-2 backgroundWhite border">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @if (Model.FormField.FormFieldID != 0)
+        {
+            <input type="hidden" asp-for="FormField.FormFieldID" />
+            title = "Edit Form";
+        }
+        <div class="col-12">
+            <h2 class="text-primary">@title</h2>
+            <br />
+        </div>
+        <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="FormField.FormId"></label>
+                </div>
+                <div class="col-8">
+                    @Html.DropDownListFor(x => x.FormField.FormId, Model.SectionList, "- Please select a Form -", new { @class = "form-control" })
+                    <span asp-validation-for="FormField.FormId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="FormField.SectionId"></label>
+                </div>
+                <div class="col-8">
+                    @Html.DropDownListFor(x => x.FormField.SectionId, Model.SectionList, "- Please select a Section -", new { @class = "form-control" })
+                    <span asp-validation-for="FormField.SectionId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="FormField.FieldLabel"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="FormField.FieldLabel" class="form-control" />
+                    <span asp-validation-for="FormField.FieldLabel" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="FormField.FieldPlaceHolder"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="FormField.FieldPlaceHolder" class="form-control" />
+                    <span asp-validation-for="FormField.FieldPlaceHolder" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="FormField.FieldWidth"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="FormField.FieldWidth" class="form-control" />
+                    <span asp-validation-for="FormField.FieldWidth" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="FormField.IsRequired"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="FormField.IsRequired" type="checkbox" class="form-control" />
+                    <span asp-validation-for="FormField.IsRequired" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-8 offset-4">
+                    @if (Model.FormField.FormFieldID != 0)
+                    {
+                        // Edit button and back to list button
+                        <partial name="_EditAndBackToListButton" model="Model.FormField.FormFieldID" />
+                    }
+                    else
+                    {
+                        // Create button and back to list button
+                        <partial name="_CreateAndBackToListButton" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

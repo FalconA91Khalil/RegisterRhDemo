@@ -7,12 +7,9 @@ using System.Text;
 
 namespace Business.IServices.IApp
 {
-    public interface IFormRepository : IRepository<Form>
+    public interface ISectionRepository : IRepository<Section>
     {
         IEnumerable<SelectListItem> GetListForDropDown();
-        void Update(Form form);
-        string GetElementTypeString(int type);
-
-
+        void Update(Section section);
     }
 }
