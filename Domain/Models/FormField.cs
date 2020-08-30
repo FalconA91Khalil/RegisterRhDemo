@@ -14,12 +14,13 @@ namespace Domain.Models
         public string FieldPlaceHolder { get; set; }
         public int FieldWidth { get; set; }
         public bool IsRequired { get; set; }
-        public int FieldType { get; set; }
+        public int FieldTypeId { get; set; }
         public int? DependentFieldId { get; set; }
         public string DependentFieldValue { get; set; }
         public string FieldValueForDep { get; set; }
 
         public virtual Section Section { get; set; }
         public virtual Form Form { get; set; }
+        public virtual FieldType FieldType { get; set; }
     }
 }

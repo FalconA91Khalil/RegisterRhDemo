@@ -7,7 +7,7 @@ namespace Domain.AuditableEntities
 {
     public class AuditEntities
     {
-        [Required]
+        //[Required]
         [StringLength(100)]
         public string CreatedBy { get; set; }
 

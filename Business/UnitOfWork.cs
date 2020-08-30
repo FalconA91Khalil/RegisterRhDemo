@@ -23,6 +23,7 @@ namespace Business
             Forms = new FormRepository(_db);
             FormFeilds = new FormFieldRepository(_db);
             Sections = new SectionRepository(_db);
+            FieldTypes = new FieldTypeRepository(_db);
         }
 
         public ISP_Call SP_Call { get; set; }
@@ -35,6 +36,7 @@ namespace Business
 
         public ISectionRepository Sections { get; set; }
 
+        public IFieldTypeRepository FieldTypes { get; set; }
 
         public void Dispose()
         {

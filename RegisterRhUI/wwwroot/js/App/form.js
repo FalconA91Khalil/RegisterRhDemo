@@ -14,11 +14,12 @@ function loadDataTable() {
         },
         "columns": [           
             { "data": "formFieldID", "width": "15" },
-            { "data": "fieldLabel", "width": "20%" },
-            { "data": "fieldType", "width": "20%" },
+            { "data": "formType", "width": "15%" },
+            { "data": "fieldLabel", "width": "15%" },
+            { "data": "fieldTypeName", "width": "15%" },
             { "data": "createdDate", "width": "15%" },
             {
-                "data": "companyId",
+                "data": "formFieldID",
                 "render": function (data) {
                     return `<div class="text-center">
                                 <a href="/App/Forms/Upsert/${data}" class='btn btn-success text-white' style='cursor:pointer; width:100px;'>

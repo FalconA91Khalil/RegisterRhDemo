@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistance;
 
 namespace Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200830044052_AddFieldType")]
+    partial class AddFieldType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -344,14 +346,16 @@ namespace Persistance.Migrations
             modelBuilder.Entity("Domain.Models.FieldType", b =>
                 {
                     b.Property<int>("FieldTypeId")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FieldTypeName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("FieldTypeId");
 
-                    b.ToTable("FieldTypes");
+                    b.ToTable("FieldType");
                 });
 
             modelBuilder.Entity("Domain.Models.Form", b =>

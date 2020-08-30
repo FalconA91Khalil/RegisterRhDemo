@@ -21,6 +21,7 @@ namespace Persistance
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Form> Forms { get; set; }
         public DbSet<FormField> FormFields { get; set; }
+        public DbSet<FieldType> FieldTypes { get; set; }
         public DbSet<Option> Options { get; set; }
         public DbSet<DynamicFormsData> DynamicFormsData { get; set; }
         public DbSet<registreRhHistory> registreRhHistories { get; set; }

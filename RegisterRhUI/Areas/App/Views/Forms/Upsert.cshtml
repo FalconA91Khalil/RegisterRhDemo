@@ -27,11 +27,11 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="FormField.FieldType"></label>
+                    <label asp-for="FormField.FieldTypeId"></label>
                 </div>
                 <div class="col-8">
-                    @Html.DropDownListFor(x => x.FormField.FieldType, Model.FieldType, "- Please select a FieldType -", new { @class = "form-control" })
-                    <span asp-validation-for="FormField.FieldType" class="text-danger"></span>
+                    @Html.DropDownListFor(x => x.FormField.FieldTypeId, Model.FieldType, "- Please select a FieldType -", new { @class = "form-control" })
+                    <span asp-validation-for="FormField.FieldTypeId" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group row">
@@ -88,6 +88,8 @@
                     }
                     else
                     {
+                        <label type="hidden" asp-for="FormField.CreatedBy" />
+                        <label type="hidden" asp-for="FormField.CreatedDate" />
                         // Create button and back to list button
                         <partial name="_CreateAndBackToListButton" />
                     }

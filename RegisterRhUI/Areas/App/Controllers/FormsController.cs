@@ -5,19 +5,21 @@ using System.Threading.Tasks;
 using Business;
 using Domain.Models;
 using Domain.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace RegisterRhUI.Areas.App.Controllers
 {
     [Area("App")]
-    public class FormsController : Controller
+    public class FormsController : AppBaseController
     {
         private readonly IUnitOfWork _unitOfWork;
 
         [BindProperty]
         public FormViewModel formVM { get; set; }
 
-        public FormsController(IUnitOfWork unitOfWork)
+        public FormsController(IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager)
+            :base(userManager)
         {
             _unitOfWork = unitOfWork;
         }
@@ -34,7 +36,7 @@ namespace RegisterRhUI.Areas.App.Controllers
                 SectionList = _unitOfWork.Sections.GetListForDropDown(),
                 FormList = _unitOfWork.Forms.GetListForDropDown(),
                 ElementWidths = _unitOfWork.FormFeilds.ElementWidth(),
-                FieldType = _unitOfWork.FormFeilds.FieldTypes()
+                FieldType = _unitOfWork.FieldTypes.GetListForDropDown()
             };
             if (id != null)
             {
@@ -45,29 +47,41 @@ namespace RegisterRhUI.Areas.App.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert()
+        public async Task<IActionResult> Upsert()
         {
             if (ModelState.IsValid)
             {
                 if (formVM.FormField.FormFieldID == 0)
                 {
+                    formVM.FormField.CreatedBy = await GetCurrentUserName();
+                    formVM.FormField.CreatedDate = DateTime.Now;
                     _unitOfWork.FormFeilds.Add(formVM.FormField);
                 }
                 else
                 {
+                    formVM.FormField.ModifiedBy = await GetCurrentUserName();
+                    formVM.FormField.ModifiedDate = DateTime.Now;
                     _unitOfWork.FormFeilds.Update(formVM.FormField);
                 }
                 _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
-            return View(formVM.FormField);
+            else
+            {
+                formVM.SectionList = _unitOfWork.Sections.GetListForDropDown();
+                formVM.FormList = _unitOfWork.Forms.GetListForDropDown();
+                formVM.ElementWidths = _unitOfWork.FormFeilds.ElementWidth();
+                formVM.FieldType = _unitOfWork.FieldTypes.GetListForDropDown();
+                return View(formVM);
+            }
+            
         }
 
         #region API CALL
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Json(new { data = _unitOfWork.FormFeilds.GetAll() });
+            return Json(new { data = _unitOfWork.FormFeilds.GetAll(includeProperties: "Section,Form,FieldType") });
             //return Json(new { data = _unitOfWork.SP_Call.ReturnList<Category>(SD.usp_GetAllCategory, null) });
         }
 

@@ -1,0 +1,12 @@
+﻿@model Domain.ViewModels.FormViewModel
+@using Domain.ViewModels
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="FormField.FieldLabel"></label>
+    </div>
+    <div class="col-8">
+        <input asp-for="FormField.FieldLabel" class="form-control" />
+        <span asp-validation-for="FormField.FieldLabel" class="text-danger"></span>
+    </div>
+</div>
