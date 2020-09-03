@@ -28,6 +28,7 @@
     <Folder Include="Areas\SRMD\Controllers\" />
     <Folder Include="Areas\SRMD\Views\" />
     <Folder Include="Controllers\" />
+    <Folder Include="ReportViewer\" />
   </ItemGroup>
 
 </Project>

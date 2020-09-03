@@ -14,9 +14,9 @@ function loadDataTable() {
         },
         "columns": [           
             { "data": "formFieldID", "width": "15" },
-            { "data": "formType", "width": "15%" },
+            //{ "data": "formType", "width": "15%" },
             { "data": "fieldLabel", "width": "15%" },
-            { "data": "fieldTypeName", "width": "15%" },
+            //{ "data": "fieldTypeName", "width": "15%" },
             { "data": "createdDate", "width": "15%" },
             {
                 "data": "formFieldID",

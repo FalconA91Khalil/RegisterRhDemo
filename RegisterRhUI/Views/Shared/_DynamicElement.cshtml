@@ -1,4 +1,4 @@
-﻿@model Domain.ViewModels.FormViewModel
+﻿@model Domain.ViewModels.DynamicFormViewModel
 @using Domain.ViewModels
 
 <div class="form-group row">
@@ -6,7 +6,13 @@
         <label asp-for="FormField.FieldLabel"></label>
     </div>
     <div class="col-8">
-        <input asp-for="FormField.FieldLabel" class="form-control" />
-        <span asp-validation-for="FormField.FieldLabel" class="text-danger"></span>
+        <input asp-for="FormField.FieldLabel" type="@Model.FormField.FieldType.FieldTypeName" placeholder="@Model.FormField.FieldPlaceHolder" class="form-control" />
+        @{
+            if (Model.FormField.IsRequired == true)
+            {
+                <span asp-validation-for="FormField.FieldLabel" class="text-danger"></span>
+            }
+        }
     </div>
 </div>
+

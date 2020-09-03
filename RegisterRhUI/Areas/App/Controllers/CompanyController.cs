@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Business;
 using Domain.Models;
+using Domain.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace RegisterRhUI.Areas.App.Controllers
@@ -24,13 +25,15 @@ namespace RegisterRhUI.Areas.App.Controllers
 
         public IActionResult Upsert(int? id)
         {
-            Company company = new Company();
+            CompanyViewModel company = new CompanyViewModel();
             if (id == null)
             {
+                company.FormFields = _unitOfWork.FormFeilds.GetAll(filter: x => x.FormId == 1, includeProperties: "Form").ToList();
                 return View(company);
             }
 
-            company = _unitOfWork.Companies.Get(id.GetValueOrDefault());
+            company.Company = _unitOfWork.Companies.Get(id.GetValueOrDefault());
+            company.FormFields = _unitOfWork.FormFeilds.GetAll(filter:x=>x.FormId == 1, includeProperties:"Form").ToList();
             if (company == null)
             {
                 return NotFound();
