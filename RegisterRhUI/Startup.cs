@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistance;
 using Business;
+using Persistance.Initializer;
 
 namespace RegisterRhUI
 {

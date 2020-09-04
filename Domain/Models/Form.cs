@@ -15,5 +15,7 @@ namespace Domain.Models
         [Required]
         [StringLength(100)]
         public string FormType { get; set; }
+
+        public ICollection<FormField> FormFields { get; set; }
     }
 }

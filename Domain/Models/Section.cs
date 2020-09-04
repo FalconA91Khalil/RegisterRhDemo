@@ -13,6 +13,6 @@ namespace Domain.Models
         public int SectionId { get; set; }
         public string SectionName { get; set; }      
         public bool IsDefault { get; set; }
-     
+        public ICollection<FormField> FormFields { get; set; }
     }
 }

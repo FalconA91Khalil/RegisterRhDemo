@@ -13,5 +13,7 @@ namespace Domain.Models
         public int FieldTypeId { get; set; }
 
         public string FieldTypeName { get; set; }
+
+        public ICollection<FormField> FormFields { get; set; }
     }
 }
