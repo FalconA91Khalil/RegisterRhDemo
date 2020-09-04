@@ -1,12 +1,20 @@
 ﻿using Domain.AuditableEntities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Domain.Models
 {
     public class FormField:AuditEntities
     {
+        public FormField()
+        {
+            Section = new HashSet<Section>();
+            Form = new HashSet<Form>();
+            FieldType = new HashSet<FieldType>();
+        }
+        [Key]
         public int FormFieldID { get; set; }
         public int FormId { get; set; }
         public int SectionId { get; set; }
@@ -19,8 +27,8 @@ namespace Domain.Models
         public string DependentFieldValue { get; set; }
         public string FieldValueForDep { get; set; }
 
-        public virtual Section Section { get; set; }
-        public virtual Form Form { get; set; }
-        public virtual FieldType FieldType { get; set; }
+        public virtual ICollection<Section> Section { get; set; }
+        public virtual ICollection<Form> Form { get; set; }
+        public virtual ICollection<FieldType> FieldType { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistance.Migrations
 {
-    public partial class intal : Migration
+    public partial class isdfwre : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -80,15 +80,15 @@ namespace Persistance.Migrations
                 {
                     CompanyId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CompanyName = table.Column<string>(nullable: true),
-                    ImageUrl = table.Column<string>(nullable: true),
+                    CreatedBy = table.Column<string>(maxLength: 100, nullable: true),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    UpdatedDate = table.Column<DateTime>(nullable: false),
+                    ModifiedBy = table.Column<string>(maxLength: 100, nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedBy = table.Column<string>(nullable: true),
-                    DeletedDate = table.Column<DateTime>(nullable: false),
-                    CreatedByUserId = table.Column<string>(nullable: true),
-                    UpdatedByUserId = table.Column<string>(nullable: true)
+                    DeletedBy = table.Column<string>(maxLength: 100, nullable: true),
+                    DeletedDate = table.Column<DateTime>(nullable: true),
+                    CompanyName = table.Column<string>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -133,16 +133,32 @@ namespace Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Forms",
+                name: "FormFields",
                 columns: table => new
                 {
-                    FormId = table.Column<int>(nullable: false)
+                    FormFieldID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FormType = table.Column<int>(nullable: false)
+                    CreatedBy = table.Column<string>(maxLength: 100, nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    ModifiedBy = table.Column<string>(maxLength: 100, nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedBy = table.Column<string>(maxLength: 100, nullable: true),
+                    DeletedDate = table.Column<DateTime>(nullable: true),
+                    FormId = table.Column<int>(nullable: false),
+                    SectionId = table.Column<int>(nullable: false),
+                    FieldLabel = table.Column<string>(nullable: true),
+                    FieldPlaceHolder = table.Column<string>(nullable: true),
+                    FieldWidth = table.Column<int>(nullable: false),
+                    IsRequired = table.Column<bool>(nullable: false),
+                    FieldTypeId = table.Column<int>(nullable: false),
+                    DependentFieldId = table.Column<int>(nullable: true),
+                    DependentFieldValue = table.Column<string>(nullable: true),
+                    FieldValueForDep = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Forms", x => x.FormId);
+                    table.PrimaryKey("PK_FormFields", x => x.FormFieldID);
                 });
 
             migrationBuilder.CreateTable(
@@ -431,24 +447,82 @@ namespace Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FieldTypes",
+                columns: table => new
+                {
+                    FieldTypeId = table.Column<int>(nullable: false),
+                    FieldTypeName = table.Column<string>(nullable: true),
+                    FormFieldID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FieldTypes", x => x.FieldTypeId);
+                    table.ForeignKey(
+                        name: "FK_FieldTypes_FormFields_FormFieldID",
+                        column: x => x.FormFieldID,
+                        principalTable: "FormFields",
+                        principalColumn: "FormFieldID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Forms",
+                columns: table => new
+                {
+                    FormId = table.Column<int>(nullable: false),
+                    FormType = table.Column<string>(maxLength: 100, nullable: false),
+                    FormFieldID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Forms", x => x.FormId);
+                    table.ForeignKey(
+                        name: "FK_Forms_FormFields_FormFieldID",
+                        column: x => x.FormFieldID,
+                        principalTable: "FormFields",
+                        principalColumn: "FormFieldID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Options",
+                columns: table => new
+                {
+                    OptionId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AttributeId = table.Column<int>(nullable: false),
+                    OptionText = table.Column<string>(nullable: true),
+                    OptionUrl = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Options", x => x.OptionId);
+                    table.ForeignKey(
+                        name: "FK_Options_FormFields_AttributeId",
+                        column: x => x.AttributeId,
+                        principalTable: "FormFields",
+                        principalColumn: "FormFieldID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sections",
                 columns: table => new
                 {
-                    SectionId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SectionId = table.Column<int>(nullable: false),
                     SectionName = table.Column<string>(nullable: true),
-                    FormId = table.Column<int>(nullable: false),
-                    IsDefault = table.Column<bool>(nullable: false)
+                    IsDefault = table.Column<bool>(nullable: false),
+                    FormFieldID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sections", x => x.SectionId);
                     table.ForeignKey(
-                        name: "FK_Sections_Forms_FormId",
-                        column: x => x.FormId,
-                        principalTable: "Forms",
-                        principalColumn: "FormId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Sections_FormFields_FormFieldID",
+                        column: x => x.FormFieldID,
+                        principalTable: "FormFields",
+                        principalColumn: "FormFieldID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -547,33 +621,6 @@ namespace Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FormFields",
-                columns: table => new
-                {
-                    FormFieldID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SectionId = table.Column<int>(nullable: false),
-                    FieldLabel = table.Column<string>(nullable: true),
-                    FieldPlaceHolder = table.Column<string>(nullable: true),
-                    FieldWidth = table.Column<int>(nullable: false),
-                    IsRequired = table.Column<bool>(nullable: false),
-                    FieldType = table.Column<int>(nullable: false),
-                    DependentFieldId = table.Column<int>(nullable: true),
-                    DependentFieldValue = table.Column<string>(nullable: true),
-                    FieldValueForDep = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FormFields", x => x.FormFieldID);
-                    table.ForeignKey(
-                        name: "FK_FormFields_Sections_SectionId",
-                        column: x => x.SectionId,
-                        principalTable: "Sections",
-                        principalColumn: "SectionId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EmployeeDocuments",
                 columns: table => new
                 {
@@ -618,27 +665,6 @@ namespace Persistance.Migrations
                         column: x => x.WorkUnitId,
                         principalTable: "WorkUnits",
                         principalColumn: "WorkUnitId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Options",
-                columns: table => new
-                {
-                    OptionId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AttributeId = table.Column<int>(nullable: false),
-                    OptionText = table.Column<string>(nullable: true),
-                    OptionUrl = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Options", x => x.OptionId);
-                    table.ForeignKey(
-                        name: "FK_Options_FormFields_AttributeId",
-                        column: x => x.AttributeId,
-                        principalTable: "FormFields",
-                        principalColumn: "FormFieldID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -814,9 +840,14 @@ namespace Persistance.Migrations
                 column: "UpdatedByUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FormFields_SectionId",
-                table: "FormFields",
-                column: "SectionId");
+                name: "IX_FieldTypes_FormFieldID",
+                table: "FieldTypes",
+                column: "FormFieldID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Forms_FormFieldID",
+                table: "Forms",
+                column: "FormFieldID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Options_AttributeId",
@@ -824,9 +855,9 @@ namespace Persistance.Migrations
                 column: "AttributeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sections_FormId",
+                name: "IX_Sections_FormFieldID",
                 table: "Sections",
-                column: "FormId");
+                column: "FormFieldID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SingleDocuments_EstablishmentId",
@@ -884,6 +915,12 @@ namespace Persistance.Migrations
                 name: "ExistingMeans");
 
             migrationBuilder.DropTable(
+                name: "FieldTypes");
+
+            migrationBuilder.DropTable(
+                name: "Forms");
+
+            migrationBuilder.DropTable(
                 name: "Options");
 
             migrationBuilder.DropTable(
@@ -897,6 +934,9 @@ namespace Persistance.Migrations
 
             migrationBuilder.DropTable(
                 name: "registreRhSettings");
+
+            migrationBuilder.DropTable(
+                name: "Sections");
 
             migrationBuilder.DropTable(
                 name: "SingleDocuments");
@@ -932,13 +972,7 @@ namespace Persistance.Migrations
                 name: "Employees");
 
             migrationBuilder.DropTable(
-                name: "Sections");
-
-            migrationBuilder.DropTable(
                 name: "Establishments");
-
-            migrationBuilder.DropTable(
-                name: "Forms");
 
             migrationBuilder.DropTable(
                 name: "Companies");

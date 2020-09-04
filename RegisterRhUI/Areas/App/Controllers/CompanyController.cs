@@ -14,6 +14,8 @@ namespace RegisterRhUI.Areas.App.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
+        [BindProperty]
+        public CompanyViewModel company { get; set; }
         public CompanyController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -23,16 +25,15 @@ namespace RegisterRhUI.Areas.App.Controllers
             return View();
         }
 
-        public IActionResult Upsert(int? id)
+        public IActionResult Upsert(int? FormFieldID)
         {
-            CompanyViewModel company = new CompanyViewModel();
-            if (id == null)
+            if (FormFieldID == null)
             {
-                company.FormFields = _unitOfWork.FormFeilds.GetAll(filter: x => x.FormId == 1, includeProperties: "Form").ToList();
+                company.FormFields = _unitOfWork.FormFeilds.GetAll(filter: x => x.FormId == 1, includeProperties: "Form,Section,FieldType").ToList();
                 return View(company);
             }
 
-            company.Company = _unitOfWork.Companies.Get(id.GetValueOrDefault());
+            company.Company = _unitOfWork.Companies.Get(FormFieldID.GetValueOrDefault());
             company.FormFields = _unitOfWork.FormFeilds.GetAll(filter:x=>x.FormId == 1, includeProperties:"Form").ToList();
             if (company == null)
             {

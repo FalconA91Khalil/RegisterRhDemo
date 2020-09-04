@@ -10,8 +10,8 @@ using Persistance;
 namespace Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200829040804_UpdateCompanyModel")]
-    partial class UpdateCompanyModel
+    [Migration("20200904172629_isdfwre")]
+    partial class isdfwre
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,7 +74,6 @@ namespace Persistance.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
@@ -344,17 +343,40 @@ namespace Persistance.Migrations
                     b.ToTable("ExistingMeans");
                 });
 
+            modelBuilder.Entity("Domain.Models.FieldType", b =>
+                {
+                    b.Property<int>("FieldTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FieldTypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("FormFieldID")
+                        .HasColumnType("int");
+
+                    b.HasKey("FieldTypeId");
+
+                    b.HasIndex("FormFieldID");
+
+                    b.ToTable("FieldTypes");
+                });
+
             modelBuilder.Entity("Domain.Models.Form", b =>
                 {
                     b.Property<int>("FormId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("FormType")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FormFieldID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FormType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
                     b.HasKey("FormId");
+
+                    b.HasIndex("FormFieldID");
 
                     b.ToTable("Forms");
                 });
@@ -365,6 +387,20 @@ namespace Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("DependentFieldId")
                         .HasColumnType("int");
@@ -378,7 +414,7 @@ namespace Persistance.Migrations
                     b.Property<string>("FieldPlaceHolder")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FieldType")
+                    b.Property<int>("FieldTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("FieldValueForDep")
@@ -387,15 +423,26 @@ namespace Persistance.Migrations
                     b.Property<int>("FieldWidth")
                         .HasColumnType("int");
 
+                    b.Property<int>("FormId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsRequired")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("SectionId")
                         .HasColumnType("int");
 
                     b.HasKey("FormFieldID");
-
-                    b.HasIndex("SectionId");
 
                     b.ToTable("FormFields");
                 });
@@ -480,11 +527,9 @@ namespace Persistance.Migrations
             modelBuilder.Entity("Domain.Models.Section", b =>
                 {
                     b.Property<int>("SectionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<int>("FormId")
+                    b.Property<int?>("FormFieldID")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDefault")
@@ -495,7 +540,7 @@ namespace Persistance.Migrations
 
                     b.HasKey("SectionId");
 
-                    b.HasIndex("FormId");
+                    b.HasIndex("FormFieldID");
 
                     b.ToTable("Sections");
                 });
@@ -1064,13 +1109,18 @@ namespace Persistance.Migrations
                         .HasForeignKey("UpdatedByUserId");
                 });
 
-            modelBuilder.Entity("Domain.Models.FormField", b =>
+            modelBuilder.Entity("Domain.Models.FieldType", b =>
                 {
-                    b.HasOne("Domain.Models.Section", "Section")
-                        .WithMany()
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Domain.Models.FormField", null)
+                        .WithMany("FieldType")
+                        .HasForeignKey("FormFieldID");
+                });
+
+            modelBuilder.Entity("Domain.Models.Form", b =>
+                {
+                    b.HasOne("Domain.Models.FormField", null)
+                        .WithMany("Form")
+                        .HasForeignKey("FormFieldID");
                 });
 
             modelBuilder.Entity("Domain.Models.Option", b =>
@@ -1084,11 +1134,9 @@ namespace Persistance.Migrations
 
             modelBuilder.Entity("Domain.Models.Section", b =>
                 {
-                    b.HasOne("Domain.Models.Form", "Form")
-                        .WithMany()
-                        .HasForeignKey("FormId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Domain.Models.FormField", null)
+                        .WithMany("Section")
+                        .HasForeignKey("FormFieldID");
                 });
 
             modelBuilder.Entity("Domain.Models.SingleDocument", b =>

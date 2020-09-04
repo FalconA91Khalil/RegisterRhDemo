@@ -36,9 +36,9 @@
             </div>
             <div>
                 @{
-                    foreach (var item in Model.FormFields)
+                    foreach (var item in Model.FieldTypes)
                     {
-                        <input asp-for="@item.FieldLabel" type="@item.FieldType.FieldTypeName" class="form-control" />
+                        <input asp-for="@item.FieldTypeId" type="@item.FieldTypeName" class="form-control" />
                     }
                 }
             </div>
