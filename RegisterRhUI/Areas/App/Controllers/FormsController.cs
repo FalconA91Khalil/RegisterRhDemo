@@ -81,7 +81,7 @@ namespace RegisterRhUI.Areas.App.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Json(new { data = _unitOfWork.FormFeilds.GetAll(includeProperties: "Section,Form") });
+            return Json(new { data = _unitOfWork.FormFeilds.GetAll(includeProperties: "Section,Form,FieldType") });
             //return Json(new { data = _unitOfWork.SP_Call.ReturnList<Category>(SD.usp_GetAllCategory, null) });
         }
 
