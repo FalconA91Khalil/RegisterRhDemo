@@ -14,6 +14,8 @@ namespace RegisterRhUI.Areas.App.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
+        [BindProperty]
+        CompanyViewModel company { get; set; }
         public CompanyController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -25,15 +27,17 @@ namespace RegisterRhUI.Areas.App.Controllers
 
         public IActionResult Upsert(int? id)
         {
-            CompanyViewModel company = new CompanyViewModel();
             if (id == null)
             {
-                company.FormFields = _unitOfWork.FormFeilds.GetAll(filter: x => x.FormId == 1, includeProperties: "Form").ToList();
-                return View(company);
+                company = new CompanyViewModel()
+                {
+                    Company = new Company(),
+                    FormFields = _unitOfWork.FormFeilds.GetAll(filter: x => x.FormId == 1, includeProperties: "Form,FieldType,Section").ToList()
+
+                };
+            return View(company);
             }
 
-            company.Company = _unitOfWork.Companies.Get(id.GetValueOrDefault());
-            company.FormFields = _unitOfWork.FormFeilds.GetAll(filter:x=>x.FormId == 1, includeProperties:"Form").ToList();
             if (company == null)
             {
                 return NotFound();
@@ -43,17 +47,17 @@ namespace RegisterRhUI.Areas.App.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Company company)
+        public IActionResult Upsert()
         {
             if (ModelState.IsValid)
             {
-                if (company.CompanyId == 0)
+                if (company.Company.CompanyId == 0)
                 {
-                    _unitOfWork.Companies.Add(company);
+                    _unitOfWork.Companies.Add(company.Company);
                 }
                 else
                 {
-                    _unitOfWork.Companies.Update(company);
+                    _unitOfWork.Companies.Update(company.Company);
                 }
                 _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));

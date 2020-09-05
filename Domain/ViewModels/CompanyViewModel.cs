@@ -11,7 +11,5 @@ namespace Domain.ViewModels
         public Company Company { get; set; }
 
         public List<FormField> FormFields { get; set; }
-        //public List<FieldType> FieldTypes { get; set; }
-        //public List<Section> Sections { get; set; }
     }
 }
