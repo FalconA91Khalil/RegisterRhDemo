@@ -40,7 +40,7 @@
                     {
                         <div class="form-group row">
                             <div class="col-4">
-                                <label for="@item.FieldLabel">@item.FieldLabel</label>
+                                <label asp-for="@item.FieldLabel">@item.FieldLabel</label>
                             </div>
                             <div class="col-8">
                                 <input asp-for="@item.FieldLabel" type="@item.FieldType.FieldTypeName" placeholder="@item.FieldPlaceHolder" class="form-control" />
