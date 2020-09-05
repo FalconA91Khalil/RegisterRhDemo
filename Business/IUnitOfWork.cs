@@ -17,6 +17,7 @@ namespace Business
         IFormFeildRepository FormFeilds { get; }
         ISectionRepository Sections { get; }
         IFieldTypeRepository FieldTypes { get; }
+        IDynamicFormsDataRepository DynamicFormsData { get; }
         ISP_Call SP_Call { get; }
         void Save();
     }

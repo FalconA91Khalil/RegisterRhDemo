@@ -37,7 +37,12 @@ namespace RegisterRhUI.Areas.App.Controllers
                 };
             return View(company);
             }
+            company = new CompanyViewModel()
+            {
+                Company = _unitOfWork.Companies.Get(id.GetValueOrDefault()),
+                FormFields = _unitOfWork.FormFeilds.GetAll(filter: x => x.FormId == 1, includeProperties: "Form,FieldType,Section").ToList()
 
+            };
             if (company == null)
             {
                 return NotFound();
@@ -54,10 +59,18 @@ namespace RegisterRhUI.Areas.App.Controllers
                 if (company.Company.CompanyId == 0)
                 {
                     _unitOfWork.Companies.Add(company.Company);
+                    foreach(FormField item in company.FormFields)
+                    {
+                        _unitOfWork.FormFeilds.Add(item);
+                    }
                 }
                 else
                 {
                     _unitOfWork.Companies.Update(company.Company);
+                    foreach (FormField item in company.FormFields)
+                    {
+                        _unitOfWork.FormFeilds.Update(item);
+                    }
                 }
                 _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));

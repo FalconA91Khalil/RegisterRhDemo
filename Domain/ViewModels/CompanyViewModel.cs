@@ -10,6 +10,8 @@ namespace Domain.ViewModels
     {
         public Company Company { get; set; }
 
+        public List<DynamicFormsData> DynamicFormsDatas { get; set; }
+
         public List<FormField> FormFields { get; set; }
     }
 }
